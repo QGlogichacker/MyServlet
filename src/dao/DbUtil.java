@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 
 public class DbUtil {
 
+
     //url,保存数据库的地址
     private String dbUrl = "jdbc:mysql://192.168.1.110:3306/qglibtest?useUnicode=true&characterEncoding=utf-8&useSSL=false";
     //保存数据库名

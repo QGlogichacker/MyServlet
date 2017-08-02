@@ -1,5 +1,6 @@
 package Util;
 
+import bean.Book;
 import bean.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,5 +40,6 @@ public class PostUtil {
         }
         return null;
     }
+
 
 }

@@ -6,8 +6,11 @@ import com.google.gson.Gson;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Dblogin {
+public class DbUser {
+    public static final ArrayList<String> match = new ArrayList<>();
     public static User login(User user) throws Exception {
         DbUtil dbutil = new DbUtil();
         Connection connection = null;
@@ -33,9 +36,9 @@ public class Dblogin {
         return usr;
     }
 
-    public static String hasUser(String name) throws Exception {
+    public static boolean hasUser(String name) throws Exception {
         if (name == null)
-            return null;
+            return false;
         DbUtil dbutil = new DbUtil();
         Connection connection = dbutil.getCon();
         //保存对数据库的操作语句
@@ -55,7 +58,7 @@ public class Dblogin {
             b = true;
 
         dbutil.close(pstm, connection);
-        return "{\n\"status\":\"" + b + "\"\n}";
+        return b;
     }
 
     public static boolean signUp(User user) throws Exception {
@@ -73,13 +76,16 @@ public class Dblogin {
         //编译sql
         ResultSet rs = pstm.executeQuery();
 
-        //处理结果集，返回对应用户
-        if (rs.next())
-            return false;
 
+        //有这个用户
+        if (rs.next()){
+            dbutil.close(pstm,connection);
+            return false;
+        }
         sql = "insert into qglibtest.usr (usr,pas) values (?,?);";
 
         //预编译sql
+        pstm.close();
         pstm = connection.prepareStatement(sql);
         pstm.setString(1, user.getUser());
         pstm.setString(2, user.getPassword());
@@ -94,6 +100,53 @@ public class Dblogin {
         String s = g.toJson(new User("123", "666"));
         User user = g.fromJson(s, User.class);
         System.out.println(user);
+    }
+
+    public HashMap<String, Integer> getChart(User usr) throws Exception {
+        if (usr == null)
+            return null;
+        DbUtil dbutil = new DbUtil();
+        Connection connection = dbutil.getCon();
+        //保存对数据库的操作语句
+        String sql = "select * from usr where id=?";
+
+        //预编译sql
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setInt(1, usr.id);
+
+        //编译sql
+        ResultSet rs = pstm.executeQuery();
+
+        HashMap<String,Integer> hs = new HashMap<>();
+        hs.put("文学",0);
+        hs.put("流行",0);
+        hs.put("文化",0);
+        hs.put("生活",0);
+        hs.put("经管",0);
+        hs.put("科技",0);
+
+        //处理结果集，返回对应用户
+        if(rs.next()) {
+            pstm.close();
+            String views= rs.getString("view");
+            sql = "select * from bookEx where ISBN IN ("+views+")";
+
+            //预编译sql
+            pstm = connection.prepareStatement(sql);
+
+            //编译sql
+            ResultSet newRs = pstm.executeQuery();
+            while(newRs.next()){
+                String type = newRs.getString("type");
+                hs.replace(type,hs.get(type)+1);
+            }
+        }else{
+            dbutil.close(pstm, connection);
+            return null;
+        }
+        dbutil.close(pstm, connection);
+        //return true;
+        return  hs;
     }
 
 }

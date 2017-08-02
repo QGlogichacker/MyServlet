@@ -15,8 +15,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        session.setAttribute("name", "jiahao");
-        session.setAttribute("password", "123456");
         System.out.println(session.getAttribute("name"));
         System.out.println(session.getAttribute("password"));
 

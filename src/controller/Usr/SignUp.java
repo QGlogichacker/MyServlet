@@ -2,7 +2,7 @@ package controller.Usr;
 
 import Util.PostUtil;
 import bean.User;
-import dao.Dblogin;
+import dao.DbUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class SignUp extends HttpServlet {
         User usr = PostUtil.getUser(request);
         try {
             PrintWriter writer = response.getWriter();
-            writer.write("{\n\"status\":\"" + Dblogin.signUp(usr) + "\"\n}");
+            writer.write("{\n\"status\":\"" + DbUser.signUp(usr) + "\"\n}");
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,11 +1,10 @@
 package bean;
 
 public class User {
-    int id;
+    public int id;
     String user;
     String password;
-    String[] view;
-    int sessionId;
+    int [] Chart = null;
 
     public User(int id, String usr, String pas) {
         this.id = id;
@@ -34,4 +33,5 @@ public class User {
     public String getPassword() {
         return password;
     }
+
 }

@@ -3,7 +3,7 @@ package controller.Usr;
 import Util.PostUtil;
 import bean.User;
 import com.google.gson.Gson;
-import dao.Dblogin;
+import dao.DbUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         User usr = PostUtil.getUser(request);
         try {
-            User user = Dblogin.login(usr);
+            User user = DbUser.login(usr);
             session.setAttribute("login", user);
             if (user != null) {
                 request.getSession().setAttribute("login", user);
@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
                 HashMap hs = new HashMap();
                 hs.put("status", "true");
                 hs.put("user", user.getUser());
-                hs.put("url", "/Servlet?name=" + user.getUser());
+                hs.put("url", "http://192.168.1.110:10086/Servlet?name=" + user.getUser());
                 PrintWriter writer = response.getWriter();
                 writer.write(new Gson().toJson(hs));
                 writer.close();

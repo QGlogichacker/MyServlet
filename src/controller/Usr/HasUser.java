@@ -1,7 +1,7 @@
 package controller.Usr;
 
 import Util.PostUtil;
-import dao.Dblogin;
+import dao.DbUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class HasUser extends HttpServlet {
         try {
             HashMap hs = PostUtil.getMap(request);
             String s = (String) hs.get("user");
-            writer.write(Dblogin.hasUser(s));
+            writer.write("{\n\"status\":\"" + DbUser.hasUser(s) + "\"\n}");
         } catch (Exception e) {
             e.printStackTrace();
         }
