@@ -59,6 +59,8 @@ public class Book {
     public Book contentCut(int length){
         if(this.content.length()>length)
             this.content = content.substring(0,length)+"...";
+        if(this.name.length()>7)
+            this.name = name.substring(0,7)+"...";
         return this;
     }
 

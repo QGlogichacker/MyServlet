@@ -5,6 +5,7 @@ import bean.Book;
 import bean.User;
 import com.google.gson.Gson;
 import dao.DbBook;
+import dao.DbUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,17 +22,17 @@ public class BookEx extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HashMap<String, String> map = PostUtil.getMap(request);
         try {
-            System.out.println(request.getSession().getId());
             Book b =DbBook.bookEx(map.get("ISBN"));
             PrintWriter writer = response.getWriter();
             writer.write(new Gson().toJson(b));
             writer.close();
             //浏览记录
             HttpSession session =  request.getSession();
-            User usr = (User) session.getAttribute("user");
-            if(usr!=null){
-                //TODO:usr.
-            }
+            User usr = (User) session.getAttribute("login");
+            //TODO:DELETE
+            usr = new User(9,"123","456");
+            //内部处理没登录的
+            DbUser.updateView(usr,map.get("ISBN"));
         } catch (Exception e) {
             e.printStackTrace();
         }

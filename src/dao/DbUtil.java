@@ -8,11 +8,11 @@ public class DbUtil {
 
 
     //url,保存数据库的地址
-    private String dbUrl = "jdbc:mysql://192.168.1.110:3306/qglibtest?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+    private String dbUrl = "jdbc:mysql://localhost:3306/qglibtest?useUnicode=true&characterEncoding=utf-8&useSSL=false";
     //保存数据库名
     private String dbUserName = "root";
     //保存数据库的密码
-    private String dbPassword = "password";
+    private String dbPassword = "014789*a";
     //保存驱动名
     private String jdbcName = "com.mysql.jdbc.Driver";
 

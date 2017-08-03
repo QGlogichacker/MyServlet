@@ -51,12 +51,12 @@ public class Search extends HttpServlet {
         ArrayList<Book> books = hs.get(key).visit();
         int count = 0;
         ArrayList<Book> booksreturn = new ArrayList<>();
-        for(int i=Integer.valueOf(index);i<books.size();i++){
+        for(int n=Integer.valueOf(index)+28,i=n-28;i<books.size()&&i<n;i++){
             booksreturn.add(books.get(i));
             count++;
         }
         HashMap mmp = new HashMap();
-        mmp.put("status",""+(count==28));
+        mmp.put("status",""+!(count==0));
         mmp.put("books",booksreturn);
         PrintWriter writer = response.getWriter();
         writer.write(new Gson().toJson(mmp));

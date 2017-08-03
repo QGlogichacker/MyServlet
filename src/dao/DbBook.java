@@ -41,7 +41,7 @@ public class DbBook {
         connection = dbutil.getCon();
         String enq = "%"+keyWord+"%";
         //保存对数据库的操作语句
-        String sql = "select * from bookEX WHERE book_name LIKE ? OR author LIKE ? OR cla LIKE ? OR content LIKE ? OR aboutwriter LIKE ?";
+        String sql = "select * from book WHERE book_name LIKE ? OR author LIKE ? OR cla LIKE ? OR content LIKE ? OR aboutwriter LIKE ?";
 
         //预编译sql
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -90,5 +90,32 @@ public class DbBook {
 
     public static void main(String[] args) throws Exception {
         System.out.println(new Gson().toJson(hotBooks()));
+    }
+
+    public static ArrayList<Book> getCom(String type,int num) throws Exception {
+        if(type==null)
+            return null;
+        DbUtil dbutil = new DbUtil();
+        Connection connection = null;
+        //调用方法返回数据库的连接
+        connection = dbutil.getCon();
+        //保存对数据库的操作语句
+        String sql = "SELECT * FROM bookEX WHERE cla=?  ORDER BY RAND()  LIMIT ?";
+
+        //预编译sql
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1,type);
+        pstm.setInt(2,num);
+
+        //编译sql
+        ResultSet rs = pstm.executeQuery();
+
+        //处理结果集，返回对应的书
+        ArrayList<Book> books = new ArrayList<>();
+        while (rs.next())
+            books.add(new Book(rs.getString("book_name"), rs.getString("author"), rs.getString("rating"), rs.getString("picture"),rs.getString("ISBN"),rs.getString("douban"),rs.getString("content"),rs.getString("cla")).contentCut(20));
+        dbutil.close(pstm, connection);
+        return books;
+
     }
 }

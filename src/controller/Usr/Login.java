@@ -26,10 +26,11 @@ public class Login extends HttpServlet {
             if (user != null) {
                 request.getSession().setAttribute("login", user);
                 //request.getRequestDispatcher("/Servlet?name="+user.getUser()).forward(request,response);
+                System.out.println(user);
                 HashMap hs = new HashMap();
                 hs.put("status", "true");
                 hs.put("user", user.getUser());
-                hs.put("url", "http://192.168.1.110:10086/Servlet?name=" + user.getUser());
+                hs.put("url", "http://192.168.199.79:10086/Servlet?name=" + user.getUser());
                 PrintWriter writer = response.getWriter();
                 writer.write(new Gson().toJson(hs));
                 writer.close();
