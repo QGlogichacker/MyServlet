@@ -30,7 +30,7 @@ public class BookEx extends HttpServlet {
             HttpSession session =  request.getSession();
             User usr = (User) session.getAttribute("login");
             //TODO:DELETE
-            usr = new User(9,"123","456");
+            //usr = new User(9,"123","456");
             //内部处理没登录的
             DbUser.updateView(usr,map.get("ISBN"));
         } catch (Exception e) {

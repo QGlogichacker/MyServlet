@@ -21,6 +21,8 @@ public class DbUser {
 
     public static final ArrayList<String> match = new ArrayList<>();
     public static User login(User user) throws Exception {
+        if(user==null)
+            return null;
         DbUtil dbutil = new DbUtil();
         Connection connection = null;
         //调用方法返回数据库的连接
@@ -137,9 +139,14 @@ public class DbUser {
         //处理结果集，返回对应的投票器
         if(rs.next()) {
             String views= rs.getString("hist");
+            if(views==""){
+                dbutil.close(pstm,connection);
+                HashMap<String,Integer> hs = new HashMap();
+                for(int i=0;i<6;i++)
+                    hs.put(Claname.get(i),0);
+                return hs;
+            }
             sql = "select * from bookEX where ISBN IN ("+views+")";
-
-
             //预编译sql
             pstm.close();
             pstm = connection.prepareStatement(sql);
@@ -189,9 +196,14 @@ public class DbUser {
 
         int count[] = new int[6];
 
+
         //处理结果集，返回对应的投票器
         if(rs.next()) {
             String views= rs.getString("hist");
+            if(views==""){
+                dbutil.close(pstm, connection);
+                return Claname.get(random.nextInt(Claname.size()-1));
+            }
             sql = "select * from bookEX where ISBN IN ("+views+")";
 
             //预编译sql

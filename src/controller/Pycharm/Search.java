@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "Search", urlPatterns = {"/search"})
 public class Search extends HttpServlet {
@@ -62,10 +63,12 @@ public class Search extends HttpServlet {
         writer.write(new Gson().toJson(mmp));
         writer.close();
 
-
+        //扫描搜索库，时间太长未访问将删除这个库
+        for(Map.Entry<String,SearchResult> en:hs.entrySet())
+            if(en.getValue().timeUp(3600000))
+                hs.remove(en.getKey());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

@@ -26,8 +26,7 @@ public class myFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "36000");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        System.out.print("SessionId:");
-        System.out.println(request.getSession().getId());
+        System.out.println("SessionId:"+request.getSession().getId());
         chain.doFilter(req, res);
     }
     public void init(FilterConfig filterConfig) {}

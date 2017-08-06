@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class Recom extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
-        //User usr = (User) request.getSession().getAttribute("login");
-        User usr = new User(9,"123","456");
+        User usr = (User) request.getSession().getAttribute("login");
+        //User usr = new User(9,"123","456");
         try {
             ArrayList<Book> books = DbBook.getCom(DbUser.getType(usr),4);
             if(books!=null){

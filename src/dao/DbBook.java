@@ -29,7 +29,7 @@ public class DbBook {
         //处理结果集，返回对应用户
         ArrayList<Book> books = new ArrayList<>();
         while (rs.next())
-            books.add(new Book(rs.getString("book_name"), rs.getString("author"), rs.getString("rating"), rs.getString("picture"),rs.getString("ISBN"),rs.getString("douban"),rs.getString("content"),rs.getString("cla")).contentCut(20));
+            books.add(new Book(rs.getString("book_name"), rs.getString("author"), rs.getString("rating"), rs.getString("picture"),rs.getString("ISBN"),rs.getString("douban"),rs.getString("content"),rs.getString("cla")));
         dbutil.close(pstm, connection);
         return MyUtil.toArray(books, Book.class);
     }
@@ -41,7 +41,7 @@ public class DbBook {
         connection = dbutil.getCon();
         String enq = "%"+keyWord+"%";
         //保存对数据库的操作语句
-        String sql = "select * from book WHERE book_name LIKE ? OR author LIKE ? OR cla LIKE ? OR content LIKE ? OR aboutwriter LIKE ?";
+        String sql = "select * from bookEX WHERE book_name LIKE ? OR author LIKE ? OR cla LIKE ? OR content LIKE ? OR aboutwriter LIKE ?";
 
         //预编译sql
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -113,9 +113,8 @@ public class DbBook {
         //处理结果集，返回对应的书
         ArrayList<Book> books = new ArrayList<>();
         while (rs.next())
-            books.add(new Book(rs.getString("book_name"), rs.getString("author"), rs.getString("rating"), rs.getString("picture"),rs.getString("ISBN"),rs.getString("douban"),rs.getString("content"),rs.getString("cla")).contentCut(20));
+            books.add(new Book(rs.getString("book_name"), rs.getString("author"), rs.getString("rating"), rs.getString("picture"),rs.getString("ISBN"),rs.getString("douban"),rs.getString("content"),rs.getString("cla")));
         dbutil.close(pstm, connection);
         return books;
-
     }
 }

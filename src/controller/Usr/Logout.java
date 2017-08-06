@@ -16,6 +16,8 @@ import java.io.PrintWriter;
 public class Logout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session =  request.getSession();
+        System.out.println(((User) session.getAttribute("login")).getUser());
+        System.out.println(session.getAttributeNames());
         session.removeAttribute("login");
         PrintWriter writer = response.getWriter();
         writer.write("{\n\"status\":\"true\"\n}");
